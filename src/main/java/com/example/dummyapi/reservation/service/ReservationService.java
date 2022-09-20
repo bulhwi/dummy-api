@@ -33,4 +33,19 @@ public class ReservationService {
             throw new RuntimeException(e);
         }
     }
+
+    public Reservation addReservation(Reservation reservation) {
+        String response = webClient
+                .post()
+                .uri(jsonServer + "/reservations")
+                .bodyValue(reservation)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        try {
+            return objectMapper.readValue(response, Reservation.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

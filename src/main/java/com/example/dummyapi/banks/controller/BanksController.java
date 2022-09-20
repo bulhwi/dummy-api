@@ -30,7 +30,7 @@ public class BanksController {
 
     @ApiOperation(value = "은행 ")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "은행 아이디", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "은행 아이디", required = true, dataTypeClass = Integer.class, paramType = "path"),
     })
     @GetMapping("/banks/{id}")
     public ResponseEntity<Bank> getBankById(@PathVariable int id) {
