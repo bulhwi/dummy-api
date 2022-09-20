@@ -33,4 +33,20 @@ public class BankService {
             throw new RuntimeException(e);
         }
     }
+
+    public Bank getBankById(int id) {
+        String url = String.format("%s/banks/%s", jsonServer, id);
+        try {
+            String response = webClient
+                    .get()
+                    .uri(url)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            return objectMapper.readValue(response, Bank.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

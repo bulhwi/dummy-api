@@ -1,6 +1,11 @@
 server:
   port: 8088
 json-server: localhost:8888
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 ---
 spring:
   config:
