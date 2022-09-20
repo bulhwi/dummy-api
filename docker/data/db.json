@@ -1,15 +1,8 @@
 {
-  "posts":[
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
   "me": {
     "remittanceAmount": 460000
   },
-  "bank": [
+  "banks": [
     {
       "id": 1,
       "name": "카카오뱅크"
