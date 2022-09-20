@@ -21,7 +21,6 @@ public class BanksController {
 
     private final BankService bankService;
 
-
     @ApiOperation(value = "은행 리스트 조회")
     @GetMapping("/banks")
     public ResponseEntity<List<Bank>> getBanks() {
