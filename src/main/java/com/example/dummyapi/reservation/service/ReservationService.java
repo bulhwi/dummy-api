@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,31 +22,32 @@ public class ReservationService {
     private String jsonServer;
 
     public List<Reservation> getReservations() {
-        String response = webClient
+        return List.of(webClient
                 .get()
                 .uri(jsonServer + "/reservations")
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        try {
-            return List.of(objectMapper.readValue(response, Reservation[].class));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+                .bodyToMono(Reservation[].class)
+                .block());
     }
 
     public Reservation addReservation(Reservation reservation) {
-        String response = webClient
+        return webClient
                 .post()
                 .uri(jsonServer + "/reservations")
                 .bodyValue(reservation)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(Reservation.class)
                 .block();
-        try {
-            return objectMapper.readValue(response, Reservation.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+
+    }
+
+    public Reservation getReservationById(int id) {
+        String url = String.format("%s/reservations/%s", jsonServer, id);
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(Reservation.class)
+                .block();
     }
 }

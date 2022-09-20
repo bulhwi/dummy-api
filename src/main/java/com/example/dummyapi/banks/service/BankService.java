@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.List;
 
 @Service
@@ -20,33 +21,22 @@ public class BankService {
     private String jsonServer;
 
     public List<Bank> getBanks() {
-        try {
-            String response = webClient
-                    .get()
-                    .uri(jsonServer + "/banks")
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-
-            return List.of(objectMapper.readValue(response, Bank[].class));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return List.of(webClient
+                .get()
+                .uri(jsonServer + "/banks")
+                .retrieve()
+                .bodyToMono(Bank[].class)
+                .block());
     }
 
     public Bank getBankById(int id) {
         String url = String.format("%s/banks/%s", jsonServer, id);
-        try {
-            String response = webClient
-                    .get()
-                    .uri(url)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(Bank.class)
+                .block();
 
-            return objectMapper.readValue(response, Bank.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
